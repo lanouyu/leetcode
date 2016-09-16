@@ -1,0 +1,36 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int size1, size2, mid;
+        size1 = nums1.size();
+        size2 = nums2.size();
+        mid = (size1 + size2) / 2 + 1;
+        if ((size1 + size2) % 2) 
+            return findkth(nums1, nums2, mid);
+        else
+            return ((findkth(nums1, nums2, mid) + 
+                    findkth(nums1, nums2, mid-1)) / 2.0);
+    }
+    int findkth(vector<int>& nums1, vector<int>& nums2, int k) {
+        int size1, size2, id1, id2;
+        size1 = nums1.size();
+        size2 = nums2.size();
+        if (size1 > size2) return findkth(nums2, nums1, k);
+        if (size1 == 0) return nums2[k-1];
+        if (k == 1) return min(nums1[0], nums2[0]);
+        
+        id1 = min(k / 2, size1);
+        id2 = k - id1;
+        vector<int> nums3;
+        if (nums1[id1-1] < nums2[id2-1]) {
+            nums3.assign(nums1.begin() + id1 , nums1.end());
+            return findkth(nums3, nums2, k - id1);
+        }
+        else if (nums1[id1-1] > nums2[id2-1]) {
+            nums3.assign(nums2.begin() + id2 , nums2.end());
+            return findkth(nums1, nums3, k - id2);
+        }
+        else
+            return nums1[id1 - 1];
+    }
+};
