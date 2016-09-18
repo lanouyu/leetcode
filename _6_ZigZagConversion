@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        string res;
+        int remain, cycle = 2 * (numRows - 1);
+        
+        if (numRows == 1) return s;
+        for (int i = 0; i < numRows; ++i) {
+            for (int j = i; j < s.size(); j += cycle) {
+                if (j >= s.size()) break;
+                res += s[j];
+                remain = j % cycle;
+                if (remain > 0 && remain < numRows - 1) {
+                    if (j + cycle - 2 * remain >= s.size()) break;
+                    res += s[j + cycle - 2 * remain];
+                }
+            }
+        }
+        return res;
+    }
+};
