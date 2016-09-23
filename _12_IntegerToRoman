@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        string s;
+        for (int i = 3; i >= 0; --i) {
+            if (num >= pow(10, i))
+                s = digToRoman(s, &num, i);
+        }
+        return s;
+    }
+    string digToRoman(string s, int* num, int mul) {
+        char n1, n2, n3;
+        char n[9] = {'I','V','X','L','C','D', 'M', 'M', 'M'};
+        n1 = n[mul * 2];
+        n2 = n[mul * 2 + 1];
+        n3 = n[mul * 2 + 2];
+        mul = pow(10, mul);
+        
+        if (*num >= 9 * mul) {
+            s = s + n1 + n3 ;
+            *num -= (9 * mul);
+        }
+        if (*num >= 5 * mul) {
+            s += n2;
+            *num -= (5 * mul);
+            while (*num > mul) {
+                s += n1;
+                *num -= mul;
+            }
+        }
+        if (*num >= 4 * mul) {
+            s = s + n1 + n2;
+            *num -= (4 * mul);
+        }
+        while (*num >= mul) {
+            s += n1;
+            *num -= mul;
+        }
+        return s;
+    }
+};
