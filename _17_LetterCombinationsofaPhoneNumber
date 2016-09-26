@@ -1,0 +1,20 @@
+class Solution {
+public:
+    const string keymap[10] = 
+        {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        string path;
+        dfs(digits, 0, path, res);
+        return res;
+    }
+    void dfs(string digits, int begin, string path, vector<string> &res) {
+        if (begin >= digits.size()) {
+            if (path != "") res.push_back(path);
+            return;
+        }
+        for (auto c : keymap[digits[begin] - '0']) {
+            dfs(digits, begin + 1, path + c, res);
+        }
+    }
+};
